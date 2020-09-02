@@ -1,4 +1,6 @@
 from room import Room
+from player import Player
+import textwrap
 
 # Declare all the rooms
 
@@ -49,3 +51,27 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+valid = ['n','e','s','w']
+player = Player(room['outside'])
+
+print(textwrap.fill('You have come seeking treasure. You may select your choices with "n", "e", "s" or "w", or type "q" if you would like to end the game.', width=40))
+choice = ''
+while choice != 'q':
+    print('\n\n\n', player)
+
+    choice = input("Please choose which direction you would like to move: ").lower() 
+    if choice in valid:
+        if choice == 'n' and hasattr(player.location, 'n_to'):
+            player.location = player.location.n_to
+        elif choice == 's' and hasattr(player.location, 's_to'):
+            player.location = player.location.s_to         
+        elif choice == 'e' and hasattr(player.location, 'e_to'):
+            player.location = player.location.e_to 
+        elif choice == 'w' and hasattr(player.location, 'w_to'):
+            player.location = player.location.w_to 
+        else:
+            print("\n\n\nThere is nothing for you in that direction. Please choose a valid direction.") 
+    elif choice == 'q':
+        print('Farewell adventurer. Until next time.')    
+    else:
+        print('\n\nPlease select a valid direction, or press "q" if you would like to quit the game.')
